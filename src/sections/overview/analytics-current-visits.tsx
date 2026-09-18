@@ -1,13 +1,12 @@
-import type { CardProps } from '@mui/material/Card';
-import type { ChartOptions } from 'src/components/chart';
-
 import Card from '@mui/material/Card';
 import Divider from '@mui/material/Divider';
 import { useTheme } from '@mui/material/styles';
 import CardHeader from '@mui/material/CardHeader';
+import type { CardProps } from '@mui/material/Card';
 
 import { fNumber } from 'src/utils/format-number';
 
+import type { ChartOptions } from 'src/components/chart';
 import { Chart, useChart, ChartLegends } from 'src/components/chart';
 
 // ----------------------------------------------------------------------

@@ -1,22 +1,21 @@
-import type { IconButtonProps } from '@mui/material/IconButton';
+import { useState, useCallback } from 'react';
 
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Avatar from '@mui/material/Avatar';
 import Popover from '@mui/material/Popover';
 import Divider from '@mui/material/Divider';
-import { useState, useCallback } from 'react';
 import MenuList from '@mui/material/MenuList';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
-import { useMutation } from '@tanstack/react-query';
+import type { IconButtonProps } from '@mui/material/IconButton';
 import MenuItem, { menuItemClasses } from '@mui/material/MenuItem';
 
 import { useRouter, usePathname } from 'src/routes/hooks';
 
-import authApi from 'src/api/authApi';
-import { queryClient } from 'src/lib/query-client';
 import { useAuthStore } from 'src/store/auth-store';
+
+import { queryClient } from 'src/lib/query-client';
 
 // ----------------------------------------------------------------------
 
@@ -55,18 +54,14 @@ export function AccountPopover({ data = [], sx, ...other }: AccountPopoverProps)
     [handleClosePopover, router]
   );
 
-  const { mutate: logout, isPending } = useMutation({
-    mutationFn: authApi.logout,
-    // Clear locally whether or not the server call succeeds — a failed
-    // logout must never leave the user seemingly signed in.
-    onSettled: () => {
-      signOut();
-      queryClient.clear();
-      router.replace('/sign-in');
-    },
-  });
+  // The portal exposes no logout endpoint, so the session is dropped locally.
+  const handleLogout = useCallback(() => {
+    signOut();
+    queryClient.clear();
+    router.replace('/sign-in');
+  }, [router, signOut]);
 
-  const displayName = user?.displayName || user?.email || 'Account';
+  const displayName = user?.displayName || user?.username || 'Account';
 
   return (
     <>
@@ -82,7 +77,7 @@ export function AccountPopover({ data = [], sx, ...other }: AccountPopoverProps)
         }}
         {...other}
       >
-        <Avatar src={user?.photoURL} alt={displayName} sx={{ width: 1, height: 1 }}>
+        <Avatar alt={displayName} sx={{ width: 1, height: 1 }}>
           {displayName.charAt(0).toUpperCase()}
         </Avatar>
       </IconButton>
@@ -105,7 +100,7 @@ export function AccountPopover({ data = [], sx, ...other }: AccountPopoverProps)
           </Typography>
 
           <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
-            {user?.email}
+            {user?.username}
           </Typography>
         </Box>
 
@@ -152,8 +147,7 @@ export function AccountPopover({ data = [], sx, ...other }: AccountPopoverProps)
             color="error"
             size="medium"
             variant="text"
-            disabled={isPending}
-            onClick={() => logout()}
+            onClick={handleLogout}
           >
             Logout
           </Button>

@@ -1,11 +1,13 @@
-import type { Theme, SxProps, Breakpoint } from '@mui/material/styles';
+import type { NavItem } from '../config-nav-dashboard';
 
 import { useEffect } from 'react';
+
 import Box from '@mui/material/Box';
 import ListItem from '@mui/material/ListItem';
 import { useTheme } from '@mui/material/styles';
 import ListItemButton from '@mui/material/ListItemButton';
 import Drawer, { drawerClasses } from '@mui/material/Drawer';
+import type { Theme, SxProps, Breakpoint } from '@mui/material/styles';
 
 import { usePathname } from 'src/routes/hooks';
 import { RouterLink } from 'src/routes/components';
@@ -14,8 +16,6 @@ import { varAlpha } from 'src/theme/styles';
 
 import { Logo } from 'src/components/logo';
 import { Scrollbar } from 'src/components/scrollbar';
-
-import type { NavItem } from '../config-nav-dashboard';
 
 // ----------------------------------------------------------------------
 

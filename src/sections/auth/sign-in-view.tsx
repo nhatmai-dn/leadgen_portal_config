@@ -1,21 +1,22 @@
-import type { SignInBody } from 'src/api/authApi';
-
-import axios from 'axios';
 import * as yup from 'yup';
 import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { useMutation } from '@tanstack/react-query';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { useLocation, useNavigate } from 'react-router';
+
 import Box from '@mui/material/Box';
 import Alert from '@mui/material/Alert';
 import Button from '@mui/material/Button';
-import { useForm } from 'react-hook-form';
 import TextField from '@mui/material/TextField';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import { useMutation } from '@tanstack/react-query';
-import { yupResolver } from '@hookform/resolvers/yup';
 import InputAdornment from '@mui/material/InputAdornment';
-import { useLocation, useNavigate } from 'react-router-dom';
 
 import authApi from 'src/api/authApi';
+import type { SignInBody } from 'src/api/authApi';
+import { isApiError } from 'src/api/baseApiRequest';
+
 import { useAuthStore } from 'src/store/auth-store';
 
 import { Iconify } from 'src/components/iconify';
@@ -23,18 +24,16 @@ import { Iconify } from 'src/components/iconify';
 // ----------------------------------------------------------------------
 
 const schema = yup.object({
-  email: yup.string().required('Email is required').email('Enter a valid email'),
+  username: yup.string().required('Username is required'),
   password: yup.string().required('Password is required'),
 });
 
 function errorMessage(error: unknown): string {
-  if (axios.isAxiosError(error)) {
-    if (error.response?.status === 401) return 'Incorrect email or password.';
-    const detail = (error.response?.data as { message?: string } | undefined)?.message;
-    if (detail) return detail;
-    if (!error.response) return 'Cannot reach the server. Check your connection.';
+  if (isApiError(error)) {
+    if (error.isUnauthorized) return 'Incorrect username or password.';
+    return error.message;
   }
-  return 'Something went wrong. Please try again.';
+  return error instanceof Error ? error.message : 'Something went wrong. Please try again.';
 }
 
 // ----------------------------------------------------------------------
@@ -53,7 +52,7 @@ export function SignInView() {
     formState: { errors },
   } = useForm<SignInBody>({
     resolver: yupResolver(schema),
-    defaultValues: { email: '', password: '' },
+    defaultValues: { username: '', password: '' },
   });
 
   const { mutate, isPending, error } = useMutation({
@@ -69,16 +68,15 @@ export function SignInView() {
     <>
       <Box
         sx={{
+          mb: 5,
           gap: 1.5,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          mb: 5
-        }}>
+          display: 'flex',
+          alignItems: 'center',
+          flexDirection: 'column',
+        }}
+      >
         <Typography variant="h5">Sign in</Typography>
-        <Typography variant="body2" sx={{
-          color: "text.secondary"
-        }}>
+        <Typography variant="body2" color="text.secondary">
           LeadGen Portal Config
         </Typography>
       </Box>
@@ -93,19 +91,17 @@ export function SignInView() {
         component="form"
         noValidate
         onSubmit={handleSubmit((values) => mutate(values))}
-        sx={{
-          display: "flex",
-          flexDirection: "column"
-        }}>
+        sx={{ display: 'flex', flexDirection: 'column' }}
+      >
         <TextField
           fullWidth
-          label="Email address"
+          label="Username"
           autoComplete="username"
-          error={!!errors.email}
-          helperText={errors.email?.message}
+          error={!!errors.username}
+          helperText={errors.username?.message}
           slotProps={{ inputLabel: { shrink: true } }}
           sx={{ mb: 3 }}
-          {...register('email')}
+          {...register('username')}
         />
 
         <TextField

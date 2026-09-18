@@ -1,8 +1,8 @@
-import type { Theme, SxProps, Breakpoint } from '@mui/material/styles';
-
 import { useState } from 'react';
+
 import Box from '@mui/material/Box';
 import { useTheme } from '@mui/material/styles';
+import type { Theme, SxProps, Breakpoint } from '@mui/material/styles';
 
 import { Iconify } from 'src/components/iconify';
 

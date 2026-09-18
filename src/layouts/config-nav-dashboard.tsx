@@ -19,4 +19,9 @@ export const navData: NavItem[] = [
     path: '/',
     icon: icon('ic-analytics'),
   },
+  {
+    title: 'Campaign Config',
+    path: '/campaign-config',
+    icon: icon('ic-analytics'),
+  },
 ];

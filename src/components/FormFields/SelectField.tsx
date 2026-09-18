@@ -1,9 +1,9 @@
 import type { Control } from 'react-hook-form';
-import type { SelectProps } from '@mui/material';
 import type { SelectHTMLAttributes } from 'react';
 
 import { useController } from 'react-hook-form';
 
+import type { SelectProps } from '@mui/material';
 import { MenuItem, FormControl, FormHelperText } from '@mui/material';
 
 import { StyledSelect } from './styles';

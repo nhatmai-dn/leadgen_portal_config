@@ -1,20 +1,30 @@
+import Box from '@mui/material/Box';
+import Card from '@mui/material/Card';
 import Grid from '@mui/material/Grid';
+import Alert from '@mui/material/Alert';
 import Typography from '@mui/material/Typography';
 
 import { useAuthStore } from 'src/store/auth-store';
-import { DashboardContent } from 'src/layouts/dashboard';
 
-import { AnalyticsWidgetSummary } from '../analytics-widget-summary';
-import { AnalyticsCurrentVisits } from '../analytics-current-visits';
-import { AnalyticsWebsiteVisits } from '../analytics-website-visits';
-import { AnalyticsConversionRates } from '../analytics-conversion-rates';
+import { DashboardContent } from 'src/layouts/dashboard';
 
 // ----------------------------------------------------------------------
 
 /**
- * Placeholder figures. Replace each block with a `useQuery` against the
- * LeadGen API — the chart components below take plain props, no store.
+ * Placeholder until the reporting API lands.
+ *
+ * Deliberately chart-free: mounting ApexCharts costs a ~940 kB chunk and
+ * ~140 ms of render for figures that are all zero, which made switching to
+ * this tab feel slow. The chart components in `src/sections/overview/` are
+ * still here — wire them up once there is data worth drawing.
  */
+const METRICS = [
+  { label: 'Leads delivered', hint: 'per day' },
+  { label: 'SMS sent', hint: 'per day' },
+  { label: 'Replies', hint: 'per day' },
+  { label: 'Active campaigns', hint: 'now' },
+];
+
 export function OverviewAnalyticsView() {
   const user = useAuthStore((state) => state.user);
 
@@ -25,66 +35,30 @@ export function OverviewAnalyticsView() {
       </Typography>
 
       <Grid container spacing={3}>
-        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
-          <AnalyticsWidgetSummary
-            title="Leads delivered"
-            percent={0}
-            total={0}
-            icon={<img alt="" src="/assets/icons/glass/ic-glass-users.svg" />}
-            chart={{ categories: [], series: [] }}
-          />
-        </Grid>
+        {METRICS.map((metric) => (
+          <Grid key={metric.label} size={{ xs: 12, sm: 6, md: 3 }}>
+            <Card sx={{ p: 3 }}>
+              <Typography variant="subtitle2" sx={{ color: 'text.secondary' }}>
+                {metric.label}
+              </Typography>
+              <Typography variant="h3" sx={{ my: 1, color: 'text.disabled' }}>
+                —
+              </Typography>
+              <Typography variant="caption" sx={{ color: 'text.disabled' }}>
+                {metric.hint}
+              </Typography>
+            </Card>
+          </Grid>
+        ))}
 
-        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
-          <AnalyticsWidgetSummary
-            title="SMS sent"
-            percent={0}
-            total={0}
-            color="secondary"
-            icon={<img alt="" src="/assets/icons/glass/ic-glass-message.svg" />}
-            chart={{ categories: [], series: [] }}
-          />
-        </Grid>
-
-        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
-          <AnalyticsWidgetSummary
-            title="Replies"
-            percent={0}
-            total={0}
-            color="warning"
-            icon={<img alt="" src="/assets/icons/glass/ic-glass-buy.svg" />}
-            chart={{ categories: [], series: [] }}
-          />
-        </Grid>
-
-        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
-          <AnalyticsWidgetSummary
-            title="Active campaigns"
-            percent={0}
-            total={0}
-            color="error"
-            icon={<img alt="" src="/assets/icons/glass/ic-glass-bag.svg" />}
-            chart={{ categories: [], series: [] }}
-          />
-        </Grid>
-
-        <Grid size={{ xs: 12, md: 6, lg: 8 }}>
-          <AnalyticsWebsiteVisits
-            title="Delivery volume"
-            subheader="Last 30 days"
-            chart={{ categories: [], series: [] }}
-          />
-        </Grid>
-
-        <Grid size={{ xs: 12, md: 6, lg: 4 }}>
-          <AnalyticsCurrentVisits title="Leads by client" chart={{ series: [] }} />
+        <Grid size={12}>
+          <Alert severity="info">
+            Reporting is not wired up yet. Campaign configuration lives under Campaign config.
+          </Alert>
         </Grid>
 
         <Grid size={12}>
-          <AnalyticsConversionRates
-            title="Reply rate by campaign"
-            chart={{ categories: [], series: [] }}
-          />
+          <Box sx={{ height: 240 }} />
         </Grid>
       </Grid>
     </DashboardContent>

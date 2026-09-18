@@ -1,8 +1,11 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
     "target": "ESNext",
-    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "lib": [
+      "DOM",
+      "DOM.Iterable",
+      "ESNext"
+    ],
     "strict": true,
     "noEmit": true,
     "allowJs": true,
@@ -19,10 +22,20 @@
     "noFallthroughCasesInSwitch": true,
     "useUnknownInCatchVariables": false,
     "allowSyntheticDefaultImports": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "paths": {
+      "src/*": [
+        "./src/*"
+      ]
+    }
   },
-  "include": ["src", "env.d.ts"],
-  "exclude": ["node_modules"],
+  "include": [
+    "src",
+    "env.d.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ],
   "references": [
     {
       "path": "./tsconfig.node.json"

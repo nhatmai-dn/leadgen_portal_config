@@ -1,8 +1,8 @@
+import type { SvgColorProps } from './types';
+
 import Box from '@mui/material/Box';
 
 import { svgColorClasses } from './classes';
-
-import type { SvgColorProps } from './types';
 
 // ----------------------------------------------------------------------
 

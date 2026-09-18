@@ -1,13 +1,12 @@
-import type { Breakpoint } from '@mui/material/styles';
-import type { AppBarProps } from '@mui/material/AppBar';
-import type { ToolbarProps } from '@mui/material/Toolbar';
-import type { ContainerProps } from '@mui/material/Container';
-
 import Box from '@mui/material/Box';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Container from '@mui/material/Container';
 import { useTheme } from '@mui/material/styles';
+import type { Breakpoint } from '@mui/material/styles';
+import type { AppBarProps } from '@mui/material/AppBar';
+import type { ToolbarProps } from '@mui/material/Toolbar';
+import type { ContainerProps } from '@mui/material/Container';
 
 import { bgBlur, varAlpha } from 'src/theme/styles';
 

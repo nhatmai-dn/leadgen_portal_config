@@ -4,10 +4,8 @@ import { persist } from 'zustand/middleware';
 // ----------------------------------------------------------------------
 
 export type AuthUser = {
-  id: string;
-  email: string;
+  username: string;
   displayName: string;
-  photoURL?: string;
 };
 
 type AuthState = {
@@ -30,7 +28,7 @@ export const useAuthStore = create<AuthState>()(
 );
 
 /**
- * Read the token outside React (axios interceptor). Calling the hook's
+ * Read the session outside React (axios interceptor). Going through
  * `getState` avoids a second source of truth in localStorage.
  */
 export const getAuthToken = () => useAuthStore.getState().token;

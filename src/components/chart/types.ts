@@ -1,4 +1,5 @@
 import type { Props } from 'react-apexcharts';
+
 import type { Theme, SxProps, Breakpoint } from '@mui/material/styles';
 
 // ----------------------------------------------------------------------

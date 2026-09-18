@@ -6,9 +6,15 @@
     "skipLibCheck": true,
     "module": "ESNext",
     "target": "ESNext",
-    "types": ["node"],
+    "types": [
+      "node"
+    ],
     "moduleResolution": "Bundler",
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "outDir": "node_modules/.tmp/tsconfig.node"
   },
-  "include": ["vite.config.ts"]
+  "include": [
+    "vite.config.ts",
+    "vitest.config.ts"
+  ]
 }

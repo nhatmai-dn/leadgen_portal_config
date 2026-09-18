@@ -18,4 +18,5 @@ export interface LabelProps extends BoxProps {
   variant?: LabelVariant;
   endIcon?: React.ReactElement | null;
   startIcon?: React.ReactElement | null;
+  ref?: React.Ref<HTMLSpanElement>;
 }

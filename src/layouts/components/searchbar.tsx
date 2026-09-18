@@ -1,5 +1,3 @@
-import type { BoxProps } from '@mui/material/Box';
-
 import { useState, useCallback } from 'react';
 
 import Box from '@mui/material/Box';
@@ -7,6 +5,7 @@ import Slide from '@mui/material/Slide';
 import Input from '@mui/material/Input';
 import Button from '@mui/material/Button';
 import { useTheme } from '@mui/material/styles';
+import type { BoxProps } from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import ClickAwayListener from '@mui/material/ClickAwayListener';
@@ -63,6 +62,9 @@ export function SearchBar({ sx, ...other }: BoxProps) {
             {...other}
           >
             <Input
+              // The search field only mounts once the user clicks Search, so
+              // focusing it is the expected behaviour rather than a surprise.
+              // eslint-disable-next-line jsx-a11y/no-autofocus
               autoFocus
               fullWidth
               disableUnderline

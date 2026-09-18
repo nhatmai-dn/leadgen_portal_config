@@ -2,7 +2,7 @@
 
 Internal admin UI for configuring lead-generation and SMS campaign pipelines.
 
-Stack: React 19 · TypeScript · Vite 5 · MUI 9 · TanStack Query · Zustand · React Router 6.
+Stack: React 19 · TypeScript 6 · Vite 8 · MUI 9 · TanStack Query · Zustand · React Router 8.
 
 ## Getting started
 
@@ -19,8 +19,10 @@ yarn dev               # http://localhost:3000
 | `yarn dev` | Dev server with HMR + type/lint overlay |
 | `yarn build` | Type-check (`tsc -b`) then production build |
 | `yarn start` | Preview the production build |
-| `yarn lint` / `lint:fix` | ESLint |
+| `yarn lint` / `lint:fix` | ESLint (flat config, `eslint.config.js`) |
 | `yarn fm:check` / `fm:fix` | Prettier |
+| `yarn test` / `test:watch` | Vitest |
+| `yarn test:coverage` | Vitest with a v8 coverage report |
 
 ## Environment
 
@@ -66,8 +68,35 @@ declared in `src/theme/core/palette.ts`.
 Page titles use React 19's native document metadata — a plain `<title>` in the
 page component, no Helmet provider.
 
+## Linting
+
+`eslint.config.js` is flat config. `eslint-config-airbnb` is gone — it never
+shipped a maintained flat build — and its rules were reproduced only where they
+earned their place, on top of `typescript-eslint`, `eslint-plugin-react`,
+`react-hooks` and `jsx-a11y`.
+
+Two pins worth knowing about: `eslint-plugin-react` and `eslint-plugin-jsx-a11y`
+still declare ESLint 9 as their peer maximum, so `package.json` has `overrides`
+letting them resolve against ESLint 10, and `settings.react.version` is pinned
+because the plugin's auto-detection crashes on ESLint 10. Drop both once those
+plugins ship ESLint 10 support.
+
+## Tests
+
+Vitest + Testing Library, jsdom environment, config in `vitest.config.ts`
+(separate from `vite.config.ts` so the suite does not pay for
+`vite-plugin-checker` re-running tsc and eslint on every run).
+
+`src/test/render.tsx` renders through the providers the app actually uses —
+QueryClient (retries off), MemoryRouter, ThemeProvider — so component tests
+exercise the real wiring. Coverage today is the logic with branches worth
+protecting: the auth store, the route guards, the axios interceptors, the query
+retry policy, and the sign-in form.
+
+CI (`.github/workflows/ci.yml`) runs typecheck, lint, tests and build on every
+push to `main` and every pull request.
+
 ## Upgrade status
 
-This codebase originated from the Minimal UI free template. Phases 0 and 2 are
-done; Vite 8, TypeScript 7 and the ESLint flat config (phase 1) and React Router
-7 (phase 3) remain — see `CHANGELOG.md`.
+This codebase originated from the Minimal UI free template. All four planned
+phases (0–3) are done — see `CHANGELOG.md` for what each one changed.

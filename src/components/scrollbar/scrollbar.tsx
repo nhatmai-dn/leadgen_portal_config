@@ -1,16 +1,15 @@
-import { forwardRef } from 'react';
+import type { ScrollbarProps } from './types';
+
 import SimpleBar from 'simplebar-react';
 
 import Box from '@mui/material/Box';
 
 import { scrollbarClasses } from './classes';
 
-import type { ScrollbarProps } from './types';
-
 // ----------------------------------------------------------------------
 
-export const Scrollbar = forwardRef<HTMLDivElement, ScrollbarProps>(
-  ({ slotProps, children, fillContent, sx, ...other }, ref) => (
+export function Scrollbar({ slotProps, children, fillContent, sx, ref, ...other }: ScrollbarProps) {
+  return (
     <Box
       component={SimpleBar}
       scrollableNodeProps={{ ref }}
@@ -39,5 +38,5 @@ export const Scrollbar = forwardRef<HTMLDivElement, ScrollbarProps>(
     >
       {children}
     </Box>
-  )
-);
+  );
+}

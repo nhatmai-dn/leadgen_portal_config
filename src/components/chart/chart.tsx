@@ -1,13 +1,20 @@
-import type { BoxProps } from '@mui/material/Box';
+import type { ChartProps } from './types';
+
+import { lazy, Suspense } from 'react';
 
 import Box from '@mui/material/Box';
-import ApexChart from 'react-apexcharts';
+import Skeleton from '@mui/material/Skeleton';
+import type { BoxProps } from '@mui/material/Box';
 
 import { chartClasses } from './classes';
 
-import type { ChartProps } from './types';
-
 // ----------------------------------------------------------------------
+
+/**
+ * ApexCharts is ~5x larger since v7 and is not needed for first paint, so it
+ * loads on demand and ships in its own chunk rather than in the page bundle.
+ */
+const ApexChart = lazy(() => import('react-apexcharts'));
 
 export function Chart({
   sx,
@@ -33,7 +40,11 @@ export function Chart({
       }}
       {...other}
     >
-      <ApexChart type={type} series={series} options={options} width="100%" height="100%" />
+      <Suspense
+        fallback={<Skeleton variant="rounded" sx={{ width: 1, height: 1 }} animation="wave" />}
+      >
+        <ApexChart type={type} series={series} options={options} width="100%" height="100%" />
+      </Suspense>
     </Box>
   );
 }

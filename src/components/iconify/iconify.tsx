@@ -1,9 +1,10 @@
-import Box from '@mui/material/Box';
+import type { IconifyProps } from './types';
+
 import { Icon } from '@iconify/react';
 
-import { iconifyClasses } from './classes';
+import Box from '@mui/material/Box';
 
-import type { IconifyProps } from './types';
+import { iconifyClasses } from './classes';
 
 // ----------------------------------------------------------------------
 
